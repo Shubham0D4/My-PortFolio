@@ -8,7 +8,10 @@
     transition: 0.8s ;
     width: 100vw;
     background-image: linear-gradient(90deg, rgb(17, 17, 39), rgb(17, 17, 39), rgb(17, 17, 39), rgb(59, 4, 122));
-    overflow: scroll;
+    overflow: auto;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
 }
 section{
     background: transparent;
