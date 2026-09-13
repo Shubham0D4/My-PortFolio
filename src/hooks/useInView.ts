@@ -1,9 +1,10 @@
-import { useState, useEffect, RefObject } from 'react';
+import { useEffect, useState, RefObject } from 'react';
 
 interface InViewOptions {
   threshold?: number;
   root?: Element | null;
   rootMargin?: string;
+  once?: boolean;
 }
 
 export function useInView(
@@ -18,22 +19,23 @@ export function useInView(
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (options.once !== false) observer.disconnect();
+        } else if (options.once === false) {
+          setIsInView(false);
+        }
       },
       {
-        threshold: options.threshold || 0,
-        root: options.root || null,
-        rootMargin: options.rootMargin || '0px',
+        threshold: options.threshold ?? 0.15,
+        root: options.root ?? null,
+        rootMargin: options.rootMargin ?? '0px',
       }
     );
 
     observer.observe(element);
-
-    return () => {
-      observer.unobserve(element);
-      observer.disconnect();
-    };
-  }, [ref, options.threshold, options.root, options.rootMargin]);
+    return () => observer.disconnect();
+  }, [ref, options.threshold, options.root, options.rootMargin, options.once]);
 
   return isInView;
 }

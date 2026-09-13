@@ -1,110 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Github, Linkedin, Mail } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Github, Linkedin, Menu, X } from 'lucide-react';
+import { navItems, site } from '../data/site';
 
-const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-    }
+  const go = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setOpen(false);
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      scrollPosition > 100 ? 'bg-gray-900/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <span className="text-xl font-bold text-white">Shubham<span className="text-indigo-500">.</span></span>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
-              </button>
-              <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About
-              </button>
-              <button onClick={() => scrollToSection('skills')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Skills
-              </button>
-              <button onClick={() => scrollToSection('projects')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Projects
-              </button>
-              <button onClick={() => scrollToSection('education')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Education
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Contact
-              </button>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
-              <Github size={20} />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
-              <Linkedin size={20} />
-            </a>
-            <a href="mailto:example@example.com" className="text-gray-300 hover:text-white transition-colors">
-              <Mail size={20} />
-            </a>
-          </div>
-          <div className="md:hidden">
-            <button onClick={toggleMenu} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <span className="sr-only">Open main menu</span>
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled || open ? 'border-b border-slate-line bg-ink/80 backdrop-blur-xl' : 'bg-transparent'
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+        <button onClick={() => go('home')} className="font-display text-xl tracking-tight text-paper">
+          {site.shortName}
+          <span className="text-mint">.</span>
+        </button>
+
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-mist transition-colors hover:text-paper"
+            >
+              {item.label}
             </button>
-          </div>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-3 lg:flex">
+          <a href={site.github} target="_blank" rel="noreferrer" className="text-mist hover:text-mint" aria-label="GitHub">
+            <Github size={18} />
+          </a>
+          <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-mist hover:text-mint" aria-label="LinkedIn">
+            <Linkedin size={18} />
+          </a>
         </div>
+
+        <button
+          className="text-paper lg:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
 
-      {/* Mobile menu */}
-      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900 shadow-lg">
-          <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</button>
-          <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</button>
-          <button onClick={() => scrollToSection('skills')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</button>
-          <button onClick={() => scrollToSection('projects')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</button>
-          <button onClick={() => scrollToSection('education')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Education</button>
-          <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</button>
-          <div className="flex space-x-4 px-3 py-2">
-            <a href="https://github.com/Shubham0D4" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white">
-              <Github size={20} />
+      {open && (
+        <div className="border-t border-slate-line bg-ink/95 px-5 py-4 lg:hidden">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              className="block w-full py-3 text-left font-mono text-xs uppercase tracking-[0.2em] text-mist"
+            >
+              {item.label}
+            </button>
+          ))}
+          <div className="mt-3 flex gap-4">
+            <a href={site.github} target="_blank" rel="noreferrer" className="text-mint">
+              GitHub
             </a>
-            <a href="https://linkedin.com/shubham-darekar-236424257" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white">
-              <Linkedin size={20} />
-            </a>
-            <a href="mailto:darekarshubham2005@gmail.com" className="text-gray-300 hover:text-white">
-              <Mail size={20} />
+            <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-mint">
+              LinkedIn
             </a>
           </div>
         </div>
-      </div>
-    </nav>
+      )}
+    </header>
   );
-};
-
-export default Navbar;
+}

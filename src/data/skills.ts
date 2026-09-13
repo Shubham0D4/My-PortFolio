@@ -1,49 +1,41 @@
-import { Skill } from '../types';
-import { Code2, Server, Database, Wrench } from 'lucide-react';
+import { SkillGroup } from '../types';
 
-export const skills: Skill[] = [
-  // Languages
-  { id: 1, name: 'C++', category: 'languages', icon: 'Code2' },
-  { id: 2, name: 'JavaScript', category: 'languages', icon: 'Code2' },
-  { id: 3, name: 'HTML5', category: 'languages', icon: 'Code2' },
-  { id: 4, name: 'CSS3', category: 'languages', icon: 'Code2' },
-  { id: 5, name: 'Java', category: 'languages', icon: 'Code2'},
-  { id: 6, name: 'Bash', category: 'languages', icon: 'Code2'},
-  
-  // Frameworks/Libraries
-  { id: 5, name: 'Node.js', category: 'frameworks', icon: 'Server' },
-  { id: 6, name: 'Express.js', category: 'frameworks', icon: 'Server' },
-  { id: 7, name: 'React.js', category: 'frameworks', icon: 'Server' },
-  { id: 8, name: 'JWT', category: 'frameworks', icon: 'Server' },
-  { id: 9, name: 'REST API', category: 'frameworks', icon: 'Server' },
-  { id: 10, name: 'Bootstrap', category: 'frameworks', icon: 'Server' },
-  
-  // Databases
-  { id: 11, name: 'MySQL', category: 'databases', icon: 'Database' },
-  { id: 12, name: 'MongoDB', category: 'databases', icon: 'Database' },
-  
-  // Tools
-  { id: 13, name: 'Visual Studio Code', category: 'tools', icon: 'Wrench' },
-  { id: 14, name: 'MongoDB Atlas', category: 'tools', icon: 'Wrench' },
-  { id: 15, name: 'MySQL CLI and Workbench', category: 'tools', icon: 'Wrench' },
-  { id: 16, name: 'Git and GitHub', category: 'tools', icon: 'Wrench' },
-  { id: 17, name: 'Debian, Ubuntu, Linux terminal', category: 'tools', icon: 'Wrench' },
-  { id: 18, name: 'Docker, Docker cmd', category: 'tools', icon: 'Wrench'}
+export const skillGroups: SkillGroup[] = [
+  {
+    id: 'languages',
+    title: 'Languages',
+    items: ['Java 21', 'Python', 'JavaScript / TypeScript', 'C++', 'SQL', 'Bash'],
+  },
+  {
+    id: 'backend',
+    title: 'Backend & APIs',
+    items: ['Spring Boot', 'FastAPI', 'Node.js / Express', 'REST', 'JWT', 'WebSockets'],
+  },
+  {
+    id: 'data',
+    title: 'Data',
+    items: ['MySQL', 'PostgreSQL', 'MongoDB', 'SQLite', 'Prisma', 'ChromaDB', 'ETL'],
+  },
+  {
+    id: 'applied-ai',
+    title: 'Applied AI',
+    items: ['Multi-agent workflows', 'RAG (ChromaDB)', 'Prompting', 'YOLOv8', 'Gemini', 'Groq'],
+  },
+  {
+    id: 'systems',
+    title: 'Systems',
+    items: ['Linux', 'systemd', 'VPS admin', 'Docker', 'Git', 'GCP (IAM, hosting)'],
+  },
+  {
+    id: 'craft',
+    title: 'Craft',
+    items: ['SOLID', 'Design patterns', 'HLD / LLD', 'OOP', 'Automated tests'],
+  },
 ];
 
-export const getIconComponent = (iconName: string | undefined) => {
-  if (!iconName) return null;
-  
-  switch (iconName) {
-    case 'Code2':
-      return Code2;
-    case 'Server':
-      return Server;
-    case 'Database':
-      return Database;
-    case 'Wrench':
-      return Wrench;
-    default:
-      return null;
-  }
-};
+export const skillNotes = [
+  'Frontend (React, Vite) is learned and used; it is not the track I want to specialise in.',
+  'Vector store experience is ChromaDB.',
+  'Kubernetes is surface-level. Go and Rust are not claimed.',
+  'LLM internals are theoretically strong; production ML engineering is still my own experiments.',
+];

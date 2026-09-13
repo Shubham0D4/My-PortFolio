@@ -1,24 +1,34 @@
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
+import Experience from './components/Experience';
 import Projects from './components/Projects';
+import Research from './components/Research';
+import Skills from './components/Skills';
 import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import './styles/animations.css';
+
+const Resume = lazy(() => import('./components/Resume'));
 
 function App() {
   return (
-    <div className="bg-gray-950 text-white">
+    <div className="grain min-h-screen bg-ink text-paper">
       <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Education />
-      <Contact />
+      <main>
+        <Hero />
+        <About />
+        <Experience />
+        <Projects />
+        <Research />
+        <Skills />
+        <Suspense fallback={<div className="min-h-[40vh] border-t border-slate-line" />}>
+          <Resume />
+        </Suspense>
+        <Education />
+        <Contact />
+      </main>
       <Footer />
     </div>
   );

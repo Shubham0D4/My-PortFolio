@@ -1,24 +1,45 @@
-import { Education } from '../types';
+import { Certification, Education } from '../types';
 
 export const educations: Education[] = [
   {
-    id: 1,
+    id: 'be',
     degree: 'Bachelor of Engineering',
+    field: 'Computer Science',
     institution: 'Dr. D. Y. Patil Institute of Technology',
-    date: 'November 2022 - March 2026',
+    location: 'Pune, Maharashtra',
+    date: 'Aug 2022 — May 2026',
   },
   {
-    id: 2,
-    degree: 'Higher Secondary Certification',
+    id: 'hsc',
+    degree: 'Higher Secondary Certificate',
+    field: 'Science',
     institution: 'Maharashtra Junior College',
-    date: 'October 2021 - February 2022',
-    score: '83.50%'
+    location: 'Ahmednagar, Maharashtra',
+    date: '2020 — 2022',
+    score: '83.50%',
   },
   {
-    id: 3,
-    degree: 'Secondary School Certification',
+    id: 'ssc',
+    degree: 'Secondary School Certificate',
     institution: 'Bhausaheb Firodiya High School',
-    date: 'June 2019 - March 2020',
-    score: '94.80%'
-  }
+    location: 'Ahmednagar, Maharashtra',
+    date: '2019 — 2020',
+    score: '94.80%',
+  },
+];
+
+export const certifications: Certification[] = [
+  {
+    id: 'nptel-dbms',
+    title: 'Database Management Systems',
+    organization: 'NPTEL / IIT',
+    date: '2024',
+    credentialId: 'NPTEL24CS75S24480285502656381',
+  },
+  {
+    id: 'udemy-ml',
+    title: 'Machine Learning, Feature Engineering, Advanced SQL, Python, ETL & Data Warehousing',
+    organization: 'Udemy Professional Certificates',
+    date: '2024 — 2025',
+  },
 ];
